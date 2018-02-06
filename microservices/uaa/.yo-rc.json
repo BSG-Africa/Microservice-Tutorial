@@ -1,0 +1,33 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "za.co.bsg"
+    },
+    "jhipsterVersion": "4.14.0",
+    "baseName": "uaa",
+    "packageName": "za.co.bsg",
+    "packageFolder": "za/co/bsg",
+    "serverPort": "8080",
+    "authenticationType": "uaa",
+    "cacheProvider": "no",
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "postgresql",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "maven",
+    "enableSocialSignIn": false,
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "1b02a60abafae2c479816c21d2594c96de55e0b8",
+    "enableTranslation": false,
+    "applicationType": "uaa",
+    "testFrameworks": [
+      "cucumber"
+    ],
+    "jhiPrefix": "jhi",
+    "clientPackageManager": "yarn",
+    "skipClient": true
+  }
+}
