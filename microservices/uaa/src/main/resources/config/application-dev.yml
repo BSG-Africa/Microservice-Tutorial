@@ -39,7 +39,7 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://localhost:5432/uaa
+        url: jdbc:postgresql://localhost:5430/uaa
         username: uaa
         password:
     jpa:
