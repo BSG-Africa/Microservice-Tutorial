@@ -40,3 +40,28 @@ You should have have postgres container running a postgres:10.1-alpine IMAGE
 externally we are exposing port 5432 for connections and internally we are preserving the postgres default port which is 5432.
 This becomes necessary when running multiple postgres servers as more than one server cannot occupy port 5432.
 3. You should notice that in NAMES, there will be some alias which includes example
+
+#Create a Movie Ticket API
+1. In terminal, navigate to example-app/
+2. Type `jhipster entity MovieTicket` and Press Enter
+3. Do you want to add a field to your entity? - **Type `Y` and press Enter **
+4. What is the name of your field - **Type `movieName` and press Enter **
+5. What is the type of your field? - **Select `String` and press Enter **
+6. Do you want to add validation rules to your field? - **Type `Y` and press Enter **
+7. Which validation rules do you want to add? - **Select `Maximum length` using Space bar and press Enter **
+8. What is the maximum length of your field? - **Type `40` and press Enter **
+9. Repeat process to add a field called `userLogin` and then Type `N` to exit adding fields
+10. Do you want to add a relationship to another entity? - **Type `N` and press Enter **
+11. Do you want to use separate service class for your business logic? - **Select `No, the REST controller should use the repository directly` and press Enter **
+12. Do you want pagination on your entity? - **Select `No, the REST controller should use the repository directly` and press Enter **
+13. Overwrite src/main/resources/config/liquibase/master.xml? - **Type `y` and press Enter **
+
+
+#Create Feign Client with Test Stub
+1. Create a new package in za.co.bsg called `feign`.
+2. Refactor location of UserDTO from `help-files` into feign package.
+3. Refactor location of UserServiceClient from `help-files` into feign package.
+4. Create an interface called UserService with a method UserDTO getLoggedInUserByUsername(String username).
+5. Implement UserService in two classes (Both should be decorated with the Spring annotation `Service`)
+    1. UserServiceImpl - add a Spring profile with name `dev`
+    2. UserServiceStub - add a Spring profile with name `default` (This should return a UserDTO which has the login manually set to `stubbed-login`)
