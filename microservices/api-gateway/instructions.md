@@ -19,3 +19,35 @@
 16. Would you like to enable internationalization support? - **Type 'n' and press Enter**
 17. Besides JUnit and Karma, which testing frameworks would you like to use? - **Press Enter**
 18. Would you like to install other generators from the JHipster Marketplace? - **Type 'n' and press Enter**
+
+#Update Postgres config
+1. Locate api-gateway/src/main/docker/postgresql.yml
+2. Update the image value to: postgres:10.1-alpine
+3. Update ports value to: 5431:5432
+
+#Run Postgres Container
+1. In terminal set api-gateway/src/main/docker to working directory.
+2. Run 'docker-compose -f postgresql.yml up -d'
+
+###Check for image
+1. In terminal type 'docker images'
+You should have have postgres in your REPOSITORY column and 10.1-alpine in your TAG column
+2. Note that you will still only have a single entry for postgres because the image was already added to your docker registry
+when you created your UAA Postgres instance.
+
+###Check for container
+1. In terminal type 'docker ps -a'
+You should have have postgres container running a postgres:10.1-alpine IMAGE
+2. You should also notice that in PORTS, your postgres container is forwarding for 5431 -> 5432. This means that
+externally we are exposing port 5431 for connections and internally we are preserving the postgres default port which is 5432.
+This becomes necessary when running multiple postgres servers as more than one server cannot occupy port 5432.
+3. You should notice that in NAMES, there will be some alias which includes api-gateway
+
+#Run JHipster Registry Container
+1. In terminal set uaa/src/main/docker to working directory.
+2. Run 'docker-compose -f jhipster-registry up -d'
+
+###Check for image
+1. In terminal type 'docker images'
+You should have have jhipster/jhipster-registry in your REPOSITORY column
+
