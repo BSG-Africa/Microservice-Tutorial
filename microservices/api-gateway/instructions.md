@@ -43,3 +43,10 @@ externally we are exposing port 5431 for connections and internally we are prese
 This becomes necessary when running multiple postgres servers as more than one server cannot occupy port 5432.
 3. You should notice that in NAMES, there will be some alias which includes apigateway
 
+#Update Application Postgres port (Dev Profile) to match Postgres container
+1. Locate api-gateway/src/main/resources/application-dev.yml
+2. Search for this entry in the file 'url: jdbc:postgresql://localhost:5432/ApiGateway'
+3. Update 5432 to 5431 in the path
+
+#If your Api Gateway Application is Running
+1. Navigate to http://localhost:8081 - for embedded Admin Front end
