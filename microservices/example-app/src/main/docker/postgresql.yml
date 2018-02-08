@@ -1,7 +1,7 @@
 version: '2'
 services:
     example-postgresql:
-        image: postgres:9.6.5
+        image: postgres:10.1-alpine
         # volumes:
         #     - ~/volumes/jhipster/Example/postgresql/:/var/lib/postgresql/data/
         environment:

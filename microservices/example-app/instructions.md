@@ -20,12 +20,11 @@
 
 
 #Update Postgres config
-1. Locate api-gateway/src/main/docker/postgresql.yml
+1. Locate example-app/src/main/docker/postgresql.yml
 2. Update the image value to: postgres:10.1-alpine
-3. Update ports value to: 5431:5432
 
 #Run Postgres Container
-1. In terminal set api-gateway/src/main/docker to working directory.
+1. In terminal set example-app/src/main/docker to working directory.
 2. Run 'docker-compose -f postgresql.yml up -d'
 
 ###Check for image
@@ -37,7 +36,7 @@ when you created your UAA Postgres instance.
 ###Check for container
 1. In terminal type 'docker ps -a'
 You should have have postgres container running a postgres:10.1-alpine IMAGE
-2. You should also notice that in PORTS, your postgres container is forwarding for 5431 -> 5432. This means that
-externally we are exposing port 5431 for connections and internally we are preserving the postgres default port which is 5432.
+2. You should also notice that in PORTS, your postgres container is forwarding for 5432 -> 5432. This means that
+externally we are exposing port 5432 for connections and internally we are preserving the postgres default port which is 5432.
 This becomes necessary when running multiple postgres servers as more than one server cannot occupy port 5432.
-3. You should notice that in NAMES, there will be some alias which includes api-gateway
+3. You should notice that in NAMES, there will be some alias which includes example
