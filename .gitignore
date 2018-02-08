@@ -27,3 +27,4 @@ hs_err_pid*
 
 microservices/api-gateway/node_modules
 microservices/uaa/node_modules
+microservices/example-app/node_modules
