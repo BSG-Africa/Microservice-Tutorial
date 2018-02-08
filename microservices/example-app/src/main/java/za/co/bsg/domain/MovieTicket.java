@@ -25,6 +25,9 @@ public class MovieTicket implements Serializable {
     @Column(name = "movie_name", length = 40)
     private String movieName;
 
+    @Column(name = "user_login")
+    private String userLogin;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -45,6 +48,19 @@ public class MovieTicket implements Serializable {
 
     public void setMovieName(String movieName) {
         this.movieName = movieName;
+    }
+
+    public String getUserLogin() {
+        return userLogin;
+    }
+
+    public MovieTicket userLogin(String userLogin) {
+        this.userLogin = userLogin;
+        return this;
+    }
+
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -73,6 +89,7 @@ public class MovieTicket implements Serializable {
         return "MovieTicket{" +
             "id=" + getId() +
             ", movieName='" + getMovieName() + "'" +
+            ", userLogin='" + getUserLogin() + "'" +
             "}";
     }
 }

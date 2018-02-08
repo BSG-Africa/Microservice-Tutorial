@@ -43,6 +43,9 @@ public class MovieTicketResourceIntTest {
     private static final String DEFAULT_MOVIE_NAME = "AAAAAAAAAA";
     private static final String UPDATED_MOVIE_NAME = "BBBBBBBBBB";
 
+    private static final String DEFAULT_USER_LOGIN = "AAAAAAAAAA";
+    private static final String UPDATED_USER_LOGIN = "BBBBBBBBBB";
+
     @Autowired
     private MovieTicketRepository movieTicketRepository;
 
@@ -81,7 +84,8 @@ public class MovieTicketResourceIntTest {
      */
     public static MovieTicket createEntity(EntityManager em) {
         MovieTicket movieTicket = new MovieTicket()
-            .movieName(DEFAULT_MOVIE_NAME);
+            .movieName(DEFAULT_MOVIE_NAME)
+            .userLogin(DEFAULT_USER_LOGIN);
         return movieTicket;
     }
 
@@ -106,6 +110,7 @@ public class MovieTicketResourceIntTest {
         assertThat(movieTicketList).hasSize(databaseSizeBeforeCreate + 1);
         MovieTicket testMovieTicket = movieTicketList.get(movieTicketList.size() - 1);
         assertThat(testMovieTicket.getMovieName()).isEqualTo(DEFAULT_MOVIE_NAME);
+        assertThat(testMovieTicket.getUserLogin()).isEqualTo(DEFAULT_USER_LOGIN);
     }
 
     @Test
@@ -138,7 +143,8 @@ public class MovieTicketResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(movieTicket.getId().intValue())))
-            .andExpect(jsonPath("$.[*].movieName").value(hasItem(DEFAULT_MOVIE_NAME.toString())));
+            .andExpect(jsonPath("$.[*].movieName").value(hasItem(DEFAULT_MOVIE_NAME.toString())))
+            .andExpect(jsonPath("$.[*].userLogin").value(hasItem(DEFAULT_USER_LOGIN.toString())));
     }
 
     @Test
@@ -152,7 +158,8 @@ public class MovieTicketResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(movieTicket.getId().intValue()))
-            .andExpect(jsonPath("$.movieName").value(DEFAULT_MOVIE_NAME.toString()));
+            .andExpect(jsonPath("$.movieName").value(DEFAULT_MOVIE_NAME.toString()))
+            .andExpect(jsonPath("$.userLogin").value(DEFAULT_USER_LOGIN.toString()));
     }
 
     @Test
@@ -175,7 +182,8 @@ public class MovieTicketResourceIntTest {
         // Disconnect from session so that the updates on updatedMovieTicket are not directly saved in db
         em.detach(updatedMovieTicket);
         updatedMovieTicket
-            .movieName(UPDATED_MOVIE_NAME);
+            .movieName(UPDATED_MOVIE_NAME)
+            .userLogin(UPDATED_USER_LOGIN);
 
         restMovieTicketMockMvc.perform(put("/api/movie-tickets")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -187,6 +195,7 @@ public class MovieTicketResourceIntTest {
         assertThat(movieTicketList).hasSize(databaseSizeBeforeUpdate);
         MovieTicket testMovieTicket = movieTicketList.get(movieTicketList.size() - 1);
         assertThat(testMovieTicket.getMovieName()).isEqualTo(UPDATED_MOVIE_NAME);
+        assertThat(testMovieTicket.getUserLogin()).isEqualTo(UPDATED_USER_LOGIN);
     }
 
     @Test

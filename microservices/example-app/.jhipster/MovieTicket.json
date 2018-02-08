@@ -9,6 +9,10 @@
                 "maxlength"
             ],
             "fieldValidateRulesMaxlength": "40"
+        },
+        {
+            "fieldName": "userLogin",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20180208194628",
