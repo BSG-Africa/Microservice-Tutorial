@@ -1,11 +1,11 @@
 version: '2'
 services:
     apigateway-postgresql:
-        image: postgres:9.6.5
+        image: postgres:10.1-alpine
         # volumes:
         #     - ~/volumes/jhipster/ApiGateway/postgresql/:/var/lib/postgresql/data/
         environment:
             - POSTGRES_USER=ApiGateway
             - POSTGRES_PASSWORD=
         ports:
-            - 5432:5432
+            - 5431:5432
