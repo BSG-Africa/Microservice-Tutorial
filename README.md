@@ -12,6 +12,7 @@ for containers and [Kubernetes](http://kubernetes.io/) for container orchestrati
 - IntelliJ Idea - _Ultimate_ has great support for this tutorial
 - JDK 8+ - _[SDKMAN](http://sdkman.io/) is a great tool for managing development tools for the JVM_
 - [Docker](https://www.docker.com/community-edition)
+- [Docker Compose](https://docs.docker.com/compose/install/#install-compose)
 - [kubectl + Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
 - [NodeJS + NPM](https://docs.npmjs.com/getting-started/installing-node)
 - Git
