@@ -1,0 +1,22 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "movieName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "40"
+        }
+    ],
+    "changelogDate": "20180208194628",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "movie_ticket",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no",
+    "microserviceName": "Example",
+    "searchEngine": false
+}
