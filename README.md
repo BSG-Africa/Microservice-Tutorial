@@ -38,6 +38,28 @@ For example:
 
     git clone https://github.com/<username>/Microservice-Tutorial.git
     
+### Install JHipster
+
+Install yarn:
+
+    npm install -g yarn
+    
+Install JHipster:
+    
+    yarn global add jhipster@4.14.0
+
+Add binaries installed by yarn to your PATH:
+
+    echo 'export PATH="$PATH:`yarn global bin`:$HOME/.config/yarn/global/node_modules/.bin"' >> ~/.bashrc
+    source ~/.bashrc
+
+Test your installation:
+
+    jhipster --version
+    
+    > Using JHipster version installed globally
+    > 4.14.0
+    
 ## Presentations
 The presentations, covering some basic theory behind this tutorial, can be found [here](slides/README.md).
 
