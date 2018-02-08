@@ -3,6 +3,8 @@ package za.co.bsg.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import za.co.bsg.domain.MovieTicket;
 
+import za.co.bsg.feign.UserDTO;
+import za.co.bsg.feign.UserService;
 import za.co.bsg.repository.MovieTicketRepository;
 import za.co.bsg.web.rest.errors.BadRequestAlertException;
 import za.co.bsg.web.rest.util.HeaderUtil;
@@ -31,9 +33,11 @@ public class MovieTicketResource {
     private static final String ENTITY_NAME = "movieTicket";
 
     private final MovieTicketRepository movieTicketRepository;
+    private final UserService userService;
 
-    public MovieTicketResource(MovieTicketRepository movieTicketRepository) {
+    public MovieTicketResource(MovieTicketRepository movieTicketRepository, UserService userService) {
         this.movieTicketRepository = movieTicketRepository;
+        this.userService = userService;
     }
 
     /**
@@ -50,6 +54,8 @@ public class MovieTicketResource {
         if (movieTicket.getId() != null) {
             throw new BadRequestAlertException("A new movieTicket cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        UserDTO userDTO = userService.getLoggedInUserByUsername("admin");
+        movieTicket.setUserLogin(userDTO.getLogin());
         MovieTicket result = movieTicketRepository.save(movieTicket);
         return ResponseEntity.created(new URI("/api/movie-tickets/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
