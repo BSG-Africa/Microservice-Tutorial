@@ -1,13 +1,5 @@
 package za.co.bsg.web.rest;
 
-import za.co.bsg.ExampleApp;
-
-import za.co.bsg.config.SecurityBeanOverrideConfiguration;
-
-import za.co.bsg.domain.MovieTicket;
-import za.co.bsg.repository.MovieTicketRepository;
-import za.co.bsg.web.rest.errors.ExceptionTranslator;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,15 +13,21 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import za.co.bsg.ExampleApp;
+import za.co.bsg.config.SecurityBeanOverrideConfiguration;
+import za.co.bsg.domain.MovieTicket;
+import za.co.bsg.feign.UserService;
+import za.co.bsg.repository.MovieTicketRepository;
+import za.co.bsg.web.rest.errors.ExceptionTranslator;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static za.co.bsg.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static za.co.bsg.web.rest.TestUtil.createFormattingConversionService;
 
 /**
  * Test class for the MovieTicketResource REST controller.
@@ -50,6 +48,9 @@ public class MovieTicketResourceIntTest {
     private MovieTicketRepository movieTicketRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -68,7 +69,7 @@ public class MovieTicketResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final MovieTicketResource movieTicketResource = new MovieTicketResource(movieTicketRepository);
+        final MovieTicketResource movieTicketResource = new MovieTicketResource(movieTicketRepository, userService);
         this.restMovieTicketMockMvc = MockMvcBuilders.standaloneSetup(movieTicketResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -110,7 +111,7 @@ public class MovieTicketResourceIntTest {
         assertThat(movieTicketList).hasSize(databaseSizeBeforeCreate + 1);
         MovieTicket testMovieTicket = movieTicketList.get(movieTicketList.size() - 1);
         assertThat(testMovieTicket.getMovieName()).isEqualTo(DEFAULT_MOVIE_NAME);
-        assertThat(testMovieTicket.getUserLogin()).isEqualTo(DEFAULT_USER_LOGIN);
+        assertThat(testMovieTicket.getUserLogin()).isEqualTo("stubbed-login");
     }
 
     @Test
