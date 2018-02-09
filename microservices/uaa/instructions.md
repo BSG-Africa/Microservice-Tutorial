@@ -89,6 +89,10 @@ First, inspect the compose file, `microservices/uaa/src/main/docker/app.yml`.
 Minikube is a single-node Kubernetes cluster running in a virtual machine on your host. It requires a VM driver, such as
 VirtualBox.
 
+Start minikube:
+
+    minikube start
+
 Create a deployment:
 
     kubectl run uaa-db --image postgres:10.1-alpine --env "POSTGRES_USER=uaa" --env "POSTGRES_PASSWORD=" --port 5432
@@ -129,7 +133,7 @@ First, deploy the service registry:
     
 Deploy the UAA application:
 
-    kubectl run uaa --image=uaa --image-pull-policy=IfNotPresent --env "SPRING_PROFILES_ACTIVE=dev,swagger" --env "EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:admin@jhipster-registry:8761/eureka" --env "SPRING_CLOUD_CONFIG_URI=http://admin:admin@jhipster-registry:8761/config" --env "SPRING_DATASOURCE_URL=jdbc:postgresql://uaa-db:5432/uaa" --env "JHIPSTER_SLEEP=30" --port 8080 --expose
+    kubectl run uaa --image=uaa --image-pull-policy=IfNotPresent --env "SPRING_PROFILES_ACTIVE=dev,swagger" --env "EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:admin@jhipster-registry:8761/eureka" --env "SPRING_CLOUD_CONFIG_URI=http://admin:admin@jhipster-registry:8761/config" --env "SPRING_DATASOURCE_URL=jdbc:postgresql://uaa-db:5432/uaa" --env "JHIPSTER_SLEEP=30" --port 8080
 
 The deployment fails because the docker daemon in Minikube can't find the UAA image locally or in docker hub.
 
@@ -138,10 +142,6 @@ The deployment fails because the docker daemon in Minikube can't find the UAA im
 Because we want to run the application using Kubernetes running in Minikube we need to make the image 
 available to Minikube. To do this point docker client to Minikube's docker daemon. Currently your docker client is 
 pointing to your host's daemon.
-
-Start minikube:
-
-    minikube start
     
 Change environment variables to point the docker client to Minikube's docker daemon:
 
@@ -159,3 +159,12 @@ uaa image is not present.
 Next, build the image again using maven, as before.
 
 The image should now be available in Minikube's docker daemon, and the application should start.
+
+Expose the UAA app as a service:
+
+    kubectl expose deployment uaa --port 8080 --target-port 8080 --type NodePort --name uaa
+
+Use `minikube service list` to get the address of the uaa service on the Minikube VM, and use cURL to test it. Be sure
+to replace the host and port number in the command below with the correct values.
+
+    curl http://192.168.99.100:31516/management/health
