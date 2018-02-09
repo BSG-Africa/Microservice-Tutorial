@@ -3,11 +3,13 @@ services:
     uaa-app:
         image: uaa
         environment:
-            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - SPRING_PROFILES_ACTIVE=dev,swagger
             - EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/eureka
             - SPRING_CLOUD_CONFIG_URI=http://admin:$${jhipster.registry.password}@jhipster-registry:8761/config
             - SPRING_DATASOURCE_URL=jdbc:postgresql://uaa-postgresql:5432/uaa
             - JHIPSTER_SLEEP=30 # gives time for the JHipster Registry to boot before the application
+        ports:
+            - 8080:8080
     uaa-postgresql:
         extends:
             file: postgresql.yml

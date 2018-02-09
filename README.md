@@ -12,6 +12,7 @@ for containers and [Kubernetes](http://kubernetes.io/) for container orchestrati
 - IntelliJ Idea - _Ultimate_ has great support for this tutorial
 - JDK 8+ - _[SDKMAN](http://sdkman.io/) is a great tool for managing development tools for the JVM_
 - [Docker](https://www.docker.com/community-edition)
+- [Docker Compose](https://docs.docker.com/compose/install/#install-compose)
 - [kubectl + Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
 - [NodeJS + NPM](https://docs.npmjs.com/getting-started/installing-node)
 - Git
@@ -37,6 +38,28 @@ Using your terminal, run:
 For example:
 
     git clone https://github.com/<username>/Microservice-Tutorial.git
+    
+### Install JHipster
+
+Install yarn:
+
+    npm install -g yarn
+    
+Install JHipster:
+ 
+    yarn global add generator-jhipster@4.14.0
+
+Add binaries installed by yarn to your PATH:
+
+    echo 'export PATH="$PATH:`yarn global bin`:$HOME/.config/yarn/global/node_modules/.bin"' >> ~/.bashrc
+    source ~/.bashrc
+
+Test your installation:
+
+    jhipster --version
+    
+    > Using JHipster version installed globally
+    > 4.14.0
     
 ## Presentations
 The presentations, covering some basic theory behind this tutorial, can be found [here](slides/README.md).
