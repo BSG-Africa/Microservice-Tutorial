@@ -129,7 +129,7 @@ First, deploy the service registry:
     
 Deploy the UAA application:
 
-    kubectl run uaa --image=uaa --env "SPRING_PROFILES_ACTIVE=dev,swagger" --env "EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:admin@jhipster-registry:8761/eureka" --env "SPRING_CLOUD_CONFIG_URI=http://admin:admin@jhipster-registry:8761/config" --env "SPRING_DATASOURCE_URL=jdbc:postgresql://uaa-db:5432/uaa" --env "JHIPSTER_SLEEP=30" --port 8080 --expose
+    kubectl run uaa --image=uaa --image-pull-policy=IfNotPresent --env "SPRING_PROFILES_ACTIVE=dev,swagger" --env "EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:admin@jhipster-registry:8761/eureka" --env "SPRING_CLOUD_CONFIG_URI=http://admin:admin@jhipster-registry:8761/config" --env "SPRING_DATASOURCE_URL=jdbc:postgresql://uaa-db:5432/uaa" --env "JHIPSTER_SLEEP=30" --port 8080 --expose
 
 The deployment fails because the docker daemon in Minikube can't find the UAA image locally or in docker hub.
 
