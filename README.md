@@ -46,8 +46,8 @@ Install yarn:
     npm install -g yarn
     
 Install JHipster:
-    
-    yarn global add jhipster@4.14.0
+ 
+    yarn global add generator-jhipster@4.14.0
 
 Add binaries installed by yarn to your PATH:
 
