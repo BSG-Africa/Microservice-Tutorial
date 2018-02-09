@@ -1,7 +1,5 @@
 # Run and interact with your first microservice - _User Authorization and Authentication (UAA)_
 
-# TODO : Service section; `kubectl expose`; `minikube service list`
-
 ## Run Postgres Container
 1. In terminal set uaa/src/main/docker to working directory.
 2. Run `docker-compose -f postgresql.yml up -d`
@@ -82,12 +80,62 @@ Check that the image was added to docker:
 
 First, inspect the compose file, `microservices/uaa/src/main/docker/app.yml`.
 
-docker-compose -f src/main/docker/app.yml up -d
+    docker-compose -f src/main/docker/app.yml up -d
 
 ## Deploy the UAA app in Minikube
 
+### Deploy PostgreSQL to Minikube
+
+Minikube is a single-node Kubernetes cluster running in a virtual machine on your host. It requires a VM driver, such as
+VirtualBox.
+
+Create a deployment:
+
+    kubectl run uaa-db --image postgres:10.1-alpine --env "POSTGRES_USER=uaa" --env "POSTGRES_PASSWORD=" --port 5432
+
+Watch the container come up:
+
+    kubectl get pods -w
+
+Port-forward the port on the pod to the host and connect using the `psql` client:
+
+    kubectl port-forward <uaa-db pod name> 5432:5432
+    # In a second terminal:
+    psql -h localhost -p 5432 -w -U uaa uaa 
+    \dt
+
+Expose a service:
+
+    kubectl expose deployment uaa-db --port 5432 --target-port 5432 --type NodePort --name uaa-db
+
+Confirm that the service was created:
+
+    kubectl get service
+
+Because we used `--type NodePort` each service is assigned a random port on the VM. Inspect using:
+
+    minikube service list 
+
+Then, using that information, connect to the DB:
+
+    # Replace the host and port with the appropriate values
+    psql -h 192.168.99.100 -p 32116 -w -U uaa uaa
+
+### Deploy the UAA application to Minikube
+
+First, deploy the service registry:
+
+    kubectl run jhipster-registry --image "jhipster/jhipster-registry:v3.2.4" --env "SPRING_PROFILES_ACTIVE=dev,native,swagger" --env "SECURITY_USER_PASSWORD=admin" --env "JHIPSTER_REGISTRY_PASSWORD=admin" --port 8761 --expose
+    
+Deploy the UAA application:
+
+    kubectl run uaa --image=uaa --env "SPRING_PROFILES_ACTIVE=dev,swagger" --env "EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://admin:admin@jhipster-registry:8761/eureka" --env "SPRING_CLOUD_CONFIG_URI=http://admin:admin@jhipster-registry:8761/config" --env "SPRING_DATASOURCE_URL=jdbc:postgresql://uaa-db:5432/uaa" --env "JHIPSTER_SLEEP=30" --port 8080 --expose
+
+The deployment fails because the docker daemon in Minikube can't find the UAA image locally or in docker hub.
+
 ### Point the docker client to Minikube's docker daemon
-Because we want to eventually run the application using Kubernetes running in Minikube we need to make the image 
+
+Because we want to run the application using Kubernetes running in Minikube we need to make the image 
 available to Minikube. To do this point docker client to Minikube's docker daemon. Currently your docker client is 
 pointing to your host's daemon.
 
@@ -105,4 +153,9 @@ Follow that instruction, and run:
 
     eval $(minikube docker-env)
     
-Now, run `docker images` and note that it is different, because it is a different docker daemon.
+Now, run `docker images` and note that it is different, because it is a different docker daemon. Also, note that the 
+uaa image is not present.
+
+Next, build the image again using maven, as before.
+
+The image should now be available in Minikube's docker daemon, and the application should start.
